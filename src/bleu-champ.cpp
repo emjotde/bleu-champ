@@ -56,6 +56,23 @@ Ladder SecondPass(Corpus &source, Corpus &target, const Ladder& path, size_t cor
   return rungs;
 }
 
+template <class Scorer, class Corpus>
+float CalcBLEU(Corpus& source, Corpus& target, const Ladder& ladder, bool total) {
+  Scorer scorer;
+  std::vector<float>stats(scorer.numStats());
+  for(const Rung& r : ladder) {
+    if(r.i == source.size() && r.j == target.size())
+      break;
+    
+    if(total || (r.bead[0] > 0 && r.bead[1] > 0)) {  
+      const Sentence& s1 = source(r.i, r.i + r.bead[0] - 1);
+      const Sentence& s2 = target(r.j, r.j + r.bead[1] - 1);
+      scorer.computeBLEUSymStats(s1, s2, stats);
+    }
+  }
+  return scorer.computeBLEUSym(stats);
+}
+
 int main(int argc, char** argv)
 {
   bool help;
@@ -174,6 +191,14 @@ int main(int argc, char** argv)
   if(!quiet) t.report();
   if(!quiet) std::cerr << std::endl;
   
+  float qAligned = 0.0;
+  float qTotal   = 0.0;
+  
+  if(!quiet) {
+    qAligned = CalcBLEU<BLEU<2>>(*source, *target, rungsMN, false);
+    qTotal   = CalcBLEU<BLEU<2>>(*source, *target, rungsMN, true);
+  }
+  
   if(sourceFileNameOrig.size())
     source.reset(new Corpus(sourceFileNameOrig));
   if(targetFileNameOrig.size())
@@ -187,5 +212,5 @@ int main(int argc, char** argv)
   }
   
   if(!quiet)
-    PrintStatistics(rungsMN);
+    PrintStatistics(rungsMN, qAligned, qTotal);
 }

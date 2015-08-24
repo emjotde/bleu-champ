@@ -57,7 +57,7 @@ void Print(const Ladder& ladder, const Corpus& source, const Corpus& target,
   }
 }
 
-void PrintStatistics(const Ladder& ladder) {
+void PrintStatistics(const Ladder& ladder, float qAligned, float qTotal) {
   std::map<Bead, size_t> stats;
   
   size_t nonZero = 0;
@@ -78,8 +78,10 @@ void PrintStatistics(const Ladder& ladder) {
   }
   std::cerr << std::endl;
  
-  std::cerr << "Quality (aligned): " << scoreSum/nonZero << std::endl;
-  std::cerr << "Quality (total): " << scoreSum/(ladder.size()-1) << std::endl;
+  std::cerr << "Quality (aligned): " << qAligned << std::endl;
+  std::cerr << "Quality (total): " << qTotal << std::endl;
+  //std::cerr << "Quality (aligned): " << scoreSum/nonZero << std::endl;
+  //std::cerr << "Quality (total): " << scoreSum/(ladder.size()-1) << std::endl;
   std::cerr << std::endl;  
 }
 

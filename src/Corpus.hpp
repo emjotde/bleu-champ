@@ -24,7 +24,9 @@ class Sentence {
   public:
     Sentence(std::vector<StringPiece>& tokens)
     : m_sentence(StringPiece()), m_tokens(&tokens), m_start(0), m_length(0)
-    {}
+    {
+      m_ngrams.resize(MAX_NGRAM_ORDER);
+    }
     
     Sentence(StringPiece sentence, size_t start, size_t length,
              std::vector<StringPiece>& tokens)
