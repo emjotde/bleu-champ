@@ -59,7 +59,7 @@ Ladder SecondPass(Corpus &source, Corpus &target, const Ladder& path, size_t cor
 template <class Scorer, class Corpus>
 float CalcBLEU(Corpus& source, Corpus& target, const Ladder& ladder, bool total) {
   Scorer scorer;
-  std::vector<float>stats(scorer.numStats());
+  std::vector<float> stats(scorer.numStats(), 0.0);
   for(const Rung& r : ladder) {
     if(r.i == source.size() && r.j == target.size())
       break;
