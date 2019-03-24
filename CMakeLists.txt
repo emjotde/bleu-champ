@@ -7,6 +7,7 @@ SET(CMAKE_CXX_FLAGS " -std=c++11 -g -O3 -funroll-loops -Wno-unused-result -Wno-d
 include_directories(${bleu-champ_SOURCE_DIR})
 set(EXT_LIBS)
 
+set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost COMPONENTS program_options timer system)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
