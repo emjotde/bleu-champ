@@ -114,6 +114,9 @@ class Corpus {
           currentPos += token.size() + 1;
         }
       }
+
+      if(sentenceStarts.empty())
+        return;
       
       m_corpus = corpusStream.str();
       
