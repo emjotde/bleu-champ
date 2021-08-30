@@ -78,6 +78,7 @@ int main(int argc, char** argv)
   bool help;
   bool skip1st;
   bool skip2nd;
+  bool fixedTarget;  // Retain target segmentation
   bool quiet;
   
   std::string sourceFileName;
@@ -111,6 +112,8 @@ int main(int argc, char** argv)
      "Skip 1st pass. Can be very slow for larger files")
     ("skip-2nd", po::value(&skip2nd)->zero_tokens()->default_value(false),
      "Skip 2nd pass and output only 1-1 path")
+    ("fixed-target,f", po::value(&fixedTarget)->zero_tokens()->default_value(false),
+     "Many-to-one alignment with the target")
   ;
 
   po::options_description output("Output options");
@@ -140,6 +143,8 @@ int main(int argc, char** argv)
      "Print only 1-1 rungs")
     ("print-unaligned,u", po::value(&params.printUnaligned)->zero_tokens()->default_value(false),
      "Print unaligned sentences")
+    ("print-index-from-one,I", po::value(&params.printOneIndexing)->zero_tokens()->default_value(false),
+     "Print with 1-based instead of 0-based indexing")
   ;
 
   po::options_description cmdline_options("Allowed options");
@@ -181,6 +186,10 @@ int main(int argc, char** argv)
   }
   else if(skip1st) {
     rungsMN = FirstPass<Config<BLEU<2>, Full>, Corpus>(*source, *target, quiet);    
+  }
+  else if(fixedTarget) {
+    Ladder rungs11 = FirstPass<Config<BLEU<2>, Fast>, Corpus>(*source, *target, quiet);
+    rungsMN = SecondPass<Config<BLEU<2>, Many2One>, Corpus>(*source, *target, rungs11, corridorWidth, quiet);
   }
   else {
     Ladder rungs11 = FirstPass<Config<BLEU<2>, Fast>, Corpus>(*source, *target, quiet);

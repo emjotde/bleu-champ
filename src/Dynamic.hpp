@@ -44,6 +44,10 @@ struct Rung {
   float score;
 };
 
+std::ostream& operator<<(std::ostream &o, Rung rung) {
+  return o << rung.i << "-" << rung.j << "/" << rung.score;
+}
+
 typedef std::vector<Rung> Ladder;
 
 /******************************************************************************/
@@ -80,6 +84,11 @@ extern const Beads fullBeads = {{0,1}, {1,0}, {1,1}, {1,2}, {2,1}, {2,2},
                    {1,3}, {3,1}, {2,3}, {3,2}, {3,3}, {1,4},
                    {2,4}, {3,4}, {4,3}, {4,2}, {4,1}};
 typedef Search<fullBeads> Full;
+
+// Align to a fixed target
+extern const Beads many2OneBeads = {{0,1}, {1,1}, {2, 1}, {3,1}, {4,1}, {5,1},
+                   {6,1}, {7,1}, {8,1}, {9,1}, {10,1}};
+typedef Search<many2OneBeads> Many2One;
 
 /******************************************************************************/
 

@@ -13,6 +13,7 @@ struct PrintParams {
   bool printScores = false;
   bool printUnaligned = false;
   bool print11 = false;
+  bool printOneIndexing = false;
   float printThreshold = MIN;
 };
 
@@ -33,7 +34,9 @@ struct TextFormat {
     const Sentence& s1 = source(r.i, r.i + r.bead[0] - 1);
     const Sentence& s2 = target(r.j, r.j + r.bead[1] - 1);
     
-    if(params.printIds)    std::cout << r.i << " " << r.j << "\t";
+    unsigned i = params.printOneIndexing ? r.i + 1 : r.i;
+    unsigned j = params.printOneIndexing ? r.j + 1 : r.j;
+    if(params.printIds)    std::cout << i << " " << j << "\t";
     if(params.printBeads)  std::cout << r.bead << "\t";
     if(params.printScores) std::cout << r.score <<  "\t";
     
