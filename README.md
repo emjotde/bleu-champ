@@ -1,5 +1,7 @@
 # bleu-champ
 
+    apt install libboost-{program,timer,system}-dev
+
     mkdir build
     cd build
     cmake ..
