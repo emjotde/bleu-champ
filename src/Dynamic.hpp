@@ -86,7 +86,7 @@ extern const Beads fullBeads = {{0,1}, {1,0}, {1,1}, {1,2}, {2,1}, {2,2},
 typedef Search<fullBeads> Full;
 
 // Align to a fixed target
-extern const Beads many2OneBeads = {{0,1}, {1,1}, {2, 1}, {3,1}, {4,1}, {5,1},
+extern const Beads many2OneBeads = {{1,0}, {0,1}, {1,1}, {2, 1}, {3,1}, {4,1}, {5,1},
                    {6,1}, {7,1}, {8,1}, {9,1}, {10,1}};
 typedef Search<many2OneBeads> Many2One;
 
